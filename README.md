@@ -120,4 +120,4 @@ I think its better to start a new worldmap, maybe there are some conflicts with 
 Note: this fork of Dives Ruris is edited to my own tastes.
 
 Changes:
-- Add composter mod: https://github.com/minetest-mods/compost
+- Add composter mod: https://github.com/minetest-mods/compost and extended it to DR's vegetation

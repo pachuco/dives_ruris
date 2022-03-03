@@ -218,6 +218,7 @@ farming.register_plant = function(name, def)
 	minetest.register_craftitem(":" .. mname .. ":" .. pname, {
 		description = pname:gsub("^%l", string.upper),
 		inventory_image = mname .. "_" .. pname .. ".png",
+        groups = {harvest = 1},
 		on_use = minetest.item_eat(0),
 	})
 

@@ -9,10 +9,9 @@ local S = minetest.get_translator("compost")
 
 compost = {
 	processing_duration = tonumber(minetest.settings:get("compost_duration_seconds")) or 300,
-	compostable_groups = {'flora', 'leaves', 'flower', 'plant', 'sapling'},
+	compostable_groups = {'flora', 'leaves', 'flower', 'plant', 'sapling', 'seed', 'reed', 'vines', 'harvest'},
 	compostable_items = {
 		['default:papyrus'] = true,
-		['farming:wheat'] = true,
 		['default:sand_with_kelp'] = true,
 		['default:marram_grass_1'] = true,
 	},
