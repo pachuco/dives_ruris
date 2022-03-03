@@ -113,3 +113,11 @@ Update 14.10.2016
 - simplify some cookingrecipes (delete the vessels)
 - remove some warning's
 I think its better to start a new worldmap, maybe there are some conflicts with older mobs and the slopeblocks.
+
+
+----
+
+Note: this fork of Dives Ruris is edited to my own tastes.
+
+Changes:
+- Add composter mod: https://github.com/minetest-mods/compost
