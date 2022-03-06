@@ -290,60 +290,65 @@ farming.register_plant = function(name, def)
 		})
 		end
 	end
-
+    
 	-- Growing ABM
-	minetest.register_abm({
+    minetest.register_abm({
 		label = "Grow plant: " .. pname,
 		nodenames = {"group:" .. pname, "group:seed"},
-		neighbors = {"group:soil"},
-		interval = 93,
-		chance = 12,
+		interval = 23,
+		chance = 2,
 		action = function(pos, node)
-			local plant_height = minetest.get_item_group(node.name, pname)
+            local soil_node = minetest.get_node_or_nil(pos - vector.new(0,1,0))
+            local plant_height = minetest.get_item_group(node.name, pname)
 
-			-- return if already full grown
-			if plant_height == def.steps then
-				return
-			end
+            -- return if already full grown
+            if not soil_node or plant_height == def.steps then
+                return
+            end
+            
+            --calculate chance for growing
+            if minetest.get_item_group(soil_node.name, "extra_fertile") == 0 then
+                if math.random() >= 1 / 24 then
+                    return
+                end
+            else
+                if math.random() >= 1 / 2 then
+                    return
+                end
+            end
+            
+            local node_def = minetest.registered_items[node.name] or nil
 
-			local node_def = minetest.registered_items[node.name] or nil
+            -- grow seed
+            if minetest.get_item_group(node.name, "seed") and node_def.fertility then
+                local can_grow = false
+                
+                for _, v in pairs(node_def.fertility) do
+                    if minetest.get_item_group(soil_node.name, v) ~= 0 then
+                        can_grow = true
+                    end
+                end
+                if can_grow then
+                    minetest.set_node(pos, {name = node.name:gsub("seed_", "") .. "_1"})
+                end
+                return
+            end
 
-			-- grow seed
-			if minetest.get_item_group(node.name, "seed") and node_def.fertility then
-				local can_grow = false
-				local soil_node = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z})
-				if not soil_node then
-					return
-				end
-				for _, v in pairs(node_def.fertility) do
-					if minetest.get_item_group(soil_node.name, v) ~= 0 then
-						can_grow = true
-					end
-				end
-				if can_grow then
-					minetest.set_node(pos, {name = node.name:gsub("seed_", "") .. "_1"})
-				end
-				return
-			end
+            -- check if on wet soil
+            if minetest.get_item_group(soil_node.name, "soil") < 3 then
+                return
+            end
 
-			-- check if on wet soil
-			pos.y = pos.y - 1
-			local n = minetest.get_node(pos)
-			if minetest.get_item_group(n.name, "soil") < 3 then
-				return
-			end
-			pos.y = pos.y + 1
+            -- check light
+            local ll = minetest.get_node_light(pos)
 
-			-- check light
-			local ll = minetest.get_node_light(pos)
+            if not ll or ll < def.minlight or ll > def.maxlight then
+                return
+            end
 
-			if not ll or ll < def.minlight or ll > def.maxlight then
-				return
-			end
-
-			-- grow
-			minetest.set_node(pos, {name = mname .. ":" .. pname .. "_" .. plant_height + 1})
-		end
+            -- grow
+            minetest.set_node(pos, {name = mname .. ":" .. pname .. "_" .. plant_height + 1})
+        end
 	})
 
 	-- Return

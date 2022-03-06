@@ -396,10 +396,11 @@ if garden_soil then
 	minetest.register_node("compost:garden_soil", {
 		description = S("Garden Soil"),
 		tiles = {"compost_garden_soil.png"},
-		groups = {crumbly = 3, soil=3, grassland = 1, wet = 1},
+		groups = {extra_fertile = 1, crumbly = 3, soil=3, grassland = 1, wet = 1},
 		sounds =  default.node_sound_dirt_defaults(),
 	})
 
+    --disposal recipe
 	minetest.register_craft({
 		type = "cooking",
 		cooktime = 3,
