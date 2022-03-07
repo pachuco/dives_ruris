@@ -353,7 +353,7 @@ minetest.register_node("default:granite", {
 			{
 				-- player will get flint with a chance
 				items = {'fake_fire:flint'},
-				rarity = 45,
+				rarity = 12,
 			},
 			{
 				-- player will get granite
